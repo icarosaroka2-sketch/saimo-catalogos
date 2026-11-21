@@ -7,48 +7,98 @@
 <title>SAIMO TV</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101114;color:white;font-family:Arial,sans-serif}
-header{padding:22px;background:#19171d;border-bottom:1px solid #333}
-h1{margin:0;font-size:25px}
+body{
+ margin:0;
+ background:#101114;
+ color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ padding:22px;
+ background:#19171d;
+ border-bottom:1px solid #333;
+}
+h1{margin:0;font-size:26px}
 p{color:#aaa;font-size:13px}
 main{padding:16px}
-input{width:100%;padding:14px;border-radius:10px;border:1px solid #333;background:#222;color:white;font-size:16px}
-#status{color:#aaa;margin:15px 0;font-size:14px}
-#lista{display:grid;gap:8px}
-.item{background:#1c1a20;padding:13px;border-radius:9px;border:1px solid #302d35;overflow-wrap:anywhere}
+input{
+ width:100%;
+ padding:14px;
+ border-radius:10px;
+ border:1px solid #333;
+ background:#222;
+ color:white;
+ font-size:16px;
+}
+#status{
+ color:#aaa;
+ margin:15px 0;
+ font-size:14px;
+}
+#lista{
+ display:grid;
+ gap:8px;
+}
+.item{
+ background:#1c1a20;
+ padding:13px;
+ border-radius:9px;
+ border:1px solid #302d35;
+ overflow-wrap:anywhere;
+}
 </style>
 </head>
 <body>
+
 <header>
 <h1>SAIMO TV</h1>
 <p>Catálogo de canais</p>
 </header>
+
 <main>
 <input id="busca" placeholder="Buscar canal...">
 <div id="status">Carregando catálogo...</div>
 <div id="lista"></div>
 </main>
+
 <script>
-const URL="https://cdn.jsdelivr.net/gh/icarosaroka2-sketch/saimo-catalogos@main/canais.txt";
+const URL="https://saimo-canais.pages.dev/catalogo.txt";
+
 let linhas=[];
 
 async function carregar(){
  const status=document.getElementById("status");
+
  try{
   const resposta=await fetch(URL);
-  if(!resposta.ok) throw new Error("Erro "+resposta.status);
+
+  if(!resposta.ok){
+   throw new Error("Erro HTTP "+resposta.status);
+  }
+
   const texto=await resposta.text();
-  linhas=texto.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+
+  linhas=texto
+   .split(/\r?\n/)
+   .map(x=>x.trim())
+   .filter(Boolean);
+
   mostrar(linhas);
+
  }catch(e){
-  status.textContent="Erro ao carregar catálogo: "+e.message;
+  status.textContent=
+   "Não foi possível carregar o catálogo. "+e.message;
  }
 }
 
 function mostrar(dados){
  const lista=document.getElementById("lista");
- document.getElementById("status").textContent=dados.length+" itens encontrados";
+ const status=document.getElementById("status");
+
  lista.innerHTML="";
+
+ status.textContent=dados.length+" linhas encontradas";
+
  dados.forEach(nome=>{
   const div=document.createElement("div");
   div.className="item";
@@ -57,12 +107,17 @@ function mostrar(dados){
  });
 }
 
-document.getElementById("busca").addEventListener("input",e=>{
+document.getElementById("busca")
+.addEventListener("input",e=>{
  const termo=e.target.value.toLowerCase();
- mostrar(linhas.filter(x=>x.toLowerCase().includes(termo)));
+
+ mostrar(
+  linhas.filter(x=>x.toLowerCase().includes(termo))
+ );
 });
 
 carregar();
 </script>
+
 </body>
 </html>
