@@ -1,1 +1,20 @@
-
+{
+  "id": "com.saimo.catalogos",
+  "version": "1.0.0",
+  "name": "SAIMO Catálogos",
+  "description": "Catálogos de filmes e séries SAIMO",
+  "resources": ["catalog"],
+  "types": ["movie", "series"],
+  "catalogs": [
+    {
+      "type": "movie",
+      "id": "saimo-filmes",
+      "name": "SAIMO Filmes"
+    },
+    {
+      "type": "series",
+      "id": "saimo-series",
+      "name": "SAIMO Séries"
+    }
+  ]
+}
