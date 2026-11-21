@@ -1,1 +1,7 @@
-
+SAIMO - INDICE PRINCIPAL
+FILMES
+filmes.txt
+SERIES
+series.txt
+CANAIS
+canais.txt
